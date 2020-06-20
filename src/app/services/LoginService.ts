@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { appConfig } from 'src/config/config';
-import { Router } from '@angular/router';
 
 export interface UserLoginBody {
   email: string;
@@ -15,7 +14,6 @@ export class LoginService {
   isLogin = false;
 
   constructor(
-    private router: Router,
     private http: HttpClient
   ) {}
 
@@ -39,8 +37,6 @@ export class LoginService {
   logout() {
     localStorage.removeItem('token');
     this.isLogin = false;
-
-    this.router.navigateByUrl('/login');
   }
 }
 

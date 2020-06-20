@@ -6,15 +6,15 @@ import { LoginService } from '../services/LoginService';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
   loading = false;
   submitted = false;
   loginForm: FormGroup;
-  authError = false;
-  authErrorMsg: string;
+  isError = false;
+  errorMessage: string;
 
   constructor(
     private router: Router,
@@ -35,8 +35,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit(loginData: { email: any; password: any; }) {
     this.submitted = true;
-    this.authError = false;
-    this.authErrorMsg = "";
+    this.isError = false;
+    this.errorMessage = "";
     if (this.loginForm.invalid) {
       return;
     }
@@ -44,16 +44,15 @@ export class LoginComponent implements OnInit {
       email: loginData.email,
       password: loginData.password
     };
-    // Pending API call and logic handling
     this.loading = true;
     this.loginService.login(userloginBody)
       .then(() => {
+        this.loading = false;
         this.router.navigateByUrl('/dashboard');
       })
       .catch((err) => {
-        // Failed login
-        this.authError = true;
-        this.authErrorMsg = err.error;
+        this.isError = true;
+        this.errorMessage = err.error;
         this.loading = false;
       });
   }
